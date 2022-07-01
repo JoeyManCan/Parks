@@ -14,39 +14,37 @@ namespace Parks.API.Repositories
             DbSet = parksDbContext.Set<T>();
         }
 
-        public Task<int> CreateAsync(T entity)
+        public async Task<int> CreateAsync(T entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public T Get()
-        {
-            throw new NotImplementedException();
+            await DbSet.AddAsync(entity);
+            return Context.SaveChanges();
         }
 
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return DbSet.ToList<T>();
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await DbSet.ToListAsync();
         }
 
-        public Task<T?> GetByIdAsync(int? id)
+        public async Task<T?> GetByIdAsync(int? id)
         {
-            throw new NotImplementedException();
+            return await DbSet.FindAsync(id);
         }
 
         public int Remove(T entity)
         {
-            throw new NotImplementedException();
+            DbSet.Remove(entity);
+            return Context.SaveChanges();
         }
 
         public int Update(T entity)
         {
-            throw new NotImplementedException();
+            DbSet.Update(entity);
+            return Context.SaveChanges();
         }
     }
 }
