@@ -2,7 +2,7 @@
 
 namespace Parks.API.Repositories.Abstractions
 {
-    public interface INationalParkRepository
+    public interface INationalParkRepository : IRepository<NationalPark>
     {
     }
 }

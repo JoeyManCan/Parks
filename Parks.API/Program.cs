@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Parks.API.Data;
+using Parks.API.Repositories;
+using Parks.API.Repositories.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ParksDbContext>(
     options => options.UseSqlServer(connectionString)//ParksDbContext constructor asks for an options parameter
 );
+
+//=================Adding DI========================
+builder.Services.AddScoped<IUnitOfWork<ParksDbContext>, UnitOfWork<ParksDbContext>>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -30,5 +35,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//app.MapGet("/", () => "Hello World!");
 
 app.Run();
