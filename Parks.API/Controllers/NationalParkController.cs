@@ -8,23 +8,46 @@ namespace Parks.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class NationalParkController : ControllerBase
+    public class NationalParkController : ControllerSuper
     {
         private readonly IUnitOfWork<ParksDbContext> _unitOfWork;
 
-        public NationalParkController(IUnitOfWork<ParksDbContext> unitOfWork)
+        public NationalParkController(IUnitOfWork<ParksDbContext> unitOfWork, Serilog.ILogger logger)
+            :base(logger)
         {
             _unitOfWork = unitOfWork;
         }
 
 
-        [HttpGet(Name = "GetAllParks")]
-        // GET: NationalParkController
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<NationalPark>>>GetAllParksAsync()
         {
-            var parks = await _unitOfWork.NationalParkRepository.GetAllAsync();
+            try
+            {
+                var parks = await _unitOfWork.NationalParkRepository.GetAllAsync();
 
-            return Ok(parks);
+                return Ok(parks);
+            }
+            catch (Exception ex)
+            {
+                return WriteExceptionMessage(ex);
+            }
+        }
+
+        [HttpPost, Route("Create")]
+        public async Task<IActionResult> CreateAsync(NationalPark nationalPark)
+        {
+            try
+            {
+                var result = await _unitOfWork.NationalParkRepository.CreateAsync(nationalPark);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return WriteExceptionMessage(ex);
+            }
+
         }
         /*
         // GET: NationalParkController/Details/5

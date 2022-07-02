@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Parks.API.Data;
+using Parks.API.ParksMapper;
 using Parks.API.Repositories;
 using Parks.API.Repositories.Abstractions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,13 +15,21 @@ builder.Services.AddDbContext<ParksDbContext>(
     options => options.UseSqlServer(connectionString)//ParksDbContext constructor asks for an options parameter
 );
 
-//=================Adding DI========================
+//=================Adding DbContext DI========================
 builder.Services.AddScoped<IUnitOfWork<ParksDbContext>, UnitOfWork<ParksDbContext>>();
+
+//=================Adding AutoMapper================
+builder.Services.AddAutoMapper(typeof(ParksMapping));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//=================Adding Serilog========================
+builder.Host.UseSerilog((fileContext, loggingConfig) =>
+    loggingConfig.WriteTo.Console().ReadFrom.Configuration(fileContext.Configuration)
+);
 
 var app = builder.Build();
 
