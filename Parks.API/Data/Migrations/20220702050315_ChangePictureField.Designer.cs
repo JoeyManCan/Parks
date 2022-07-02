@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Parks.API.Data;
 
@@ -11,9 +12,10 @@ using Parks.API.Data;
 namespace Parks.API.Migrations
 {
     [DbContext(typeof(ParksDbContext))]
-    partial class ParksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220702050315_ChangePictureField")]
+    partial class ChangePictureField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
