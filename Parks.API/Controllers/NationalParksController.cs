@@ -20,9 +20,29 @@ namespace Parks.API.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+        [HttpGet]
+        [Route("GetById")]
+        public async Task<ActionResult<NationalPark>> GetParkById(int id)
+        {
+            try
+            {
+                var park = await _unitOfWork.NationalParkRepository.GetByIdAsync(id);
+                if(park == null)
+                {
+                    return NotFound("The requested park was not found");
+                }
+                return Ok(park);
+            }
+            catch (Exception ex)
+            {
+                WriteExceptionMessage(ex);
+            }
 
+            return NotFound();
+        } 
 
         [HttpGet]
+        [Route("GetAllParks")]
         public async Task<ActionResult<IEnumerable<NationalPark>>> GetAllParksAsync()
         {
             try
@@ -39,24 +59,30 @@ namespace Parks.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync(NationalParkDTO nationalPark)
+        [Route("CreatePark")]
+        public async Task<IActionResult> CreateAsync(NationalParkDTO nationalParkDTO)
         {
             try
             {
-                if (nationalPark == null)
+                if (nationalParkDTO == null)
                 {
-                    return BadRequest("No National Park requested");
+                    return NotFound("No National Park requested");
                 }
                 if (ModelState.IsValid)
                 {
-                    var dbNationalPark = Mapper.Map<NationalPark>(nationalPark);
-                    var result = await _unitOfWork.NationalParkRepository.CreateAsync(dbNationalPark);
+                    var parkExists = await _unitOfWork.NationalParkRepository.IsParkThere(nationalParkDTO.Name);
+                    if (parkExists)
+                    {
+                        return Problem($"Park '{nationalParkDTO.Name}' already exists");
+                    }
+                    var nationalPark = Mapper.Map<NationalPark>(nationalParkDTO);
+                    var result = await _unitOfWork.NationalParkRepository.CreateAsync(nationalPark);
 
                     if (result < 1)
                     {
-                        throw new Exception($"National Park {nationalPark.Name} could not be created, please try again later");
+                        throw new Exception($"National Park {nationalParkDTO.Name} could not be created, please try again later");
                     }
-                    return Ok();
+                    return Created("CreatePark",$"Park {nationalPark.Name} created successfully.");
                 }
                 return BadRequest(ModelState);
             }
@@ -68,6 +94,7 @@ namespace Parks.API.Controllers
         }
 
         [HttpDelete]
+        [Route("DeletePark")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             try
@@ -75,7 +102,7 @@ namespace Parks.API.Controllers
                 var dbPark = await _unitOfWork.NationalParkRepository.GetByIdAsync(id);
                 if (dbPark == null)
                 {
-                    return BadRequest("The requested Park was not found");
+                    return NotFound("The requested Park was not found");
                 }
                 var result = _unitOfWork.NationalParkRepository.Remove(dbPark);
                 if (result == 0)
@@ -92,14 +119,15 @@ namespace Parks.API.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> PutAsync(NationalParkDTO nationalParkDTO)
+        [HttpPatch]
+        [Route("UpdatePark")]
+        public async Task<IActionResult> UpdateAsync(int id, NationalParkUpdateDTO nationalParkDTO)
         {
             try
             {
-                if (nationalParkDTO == null)
+                if (nationalParkDTO == null || id != nationalParkDTO.Id)
                 {
-                    return BadRequest("No National Park requested");
+                    return NotFound("No National Park requested");
                 }
                 if (ModelState.IsValid)
                 {
@@ -115,7 +143,7 @@ namespace Parks.API.Controllers
                         return Problem($"The park {dbNationalPark.Name} could not be updated");
                     }
 
-                    return Ok();
+                    return NoContent();
                 }
 
                 return BadRequest(ModelState);
@@ -126,74 +154,5 @@ namespace Parks.API.Controllers
             }
         }
 
-        /*
-        // GET: NationalParkController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: NationalParkController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: NationalParkController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: NationalParkController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: NationalParkController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: NationalParkController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: NationalParkController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
     }
 }
