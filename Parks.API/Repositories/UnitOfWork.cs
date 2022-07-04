@@ -7,6 +7,7 @@ namespace Parks.API.Repositories
     public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext
     {
         public INationalParkRepository NationalParkRepository { get; private set; } = null!;
+        public ITrailRepository TrailRepository { get; private set; } = null!;
 
         private readonly ParksDbContext _parksDbContext;
 
@@ -15,6 +16,8 @@ namespace Parks.API.Repositories
             _parksDbContext = parksDbContext;
 
             NationalParkRepository = new NationalParkRepository(_parksDbContext);
+
+            TrailRepository = new TrailRepository(_parksDbContext);
         }
     }
 }

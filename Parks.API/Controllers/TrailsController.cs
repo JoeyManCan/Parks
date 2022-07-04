@@ -100,7 +100,6 @@ namespace Parks.API.Controllers
             {
                 return WriteExceptionMessage(ex);
             }
-
         }
 
         [HttpDelete]
