@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Parks.API</name>
+    </assembly>
+    <members>
+        <member name="M:Parks.API.Controllers.NationalParksController.#ctor(Parks.API.Repositories.Abstractions.IUnitOfWork{Parks.API.Data.ParksDbContext},Serilog.ILogger,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="unitOfWork"></param>
+            <param name="logger"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:Parks.API.Controllers.NationalParksController.GetParkById(System.Int32)">
+            <summary>
+            Gets selected park
+            </summary>
+            <param name="id">Park ID</param>
+            <returns>Park object</returns>
+        </member>
+        <member name="M:Parks.API.Repositories.Abstractions.IRepository`1.Update(`0)">
+            <summary>
+            Due to DB concurrency, there's no UpdateAsync or Delete Async
+            </summary>
+            <param name="author"></param>
+            <returns>number of lines changed</returns>
+        </member>
+        <member name="M:Parks.API.Repositories.Abstractions.IRepository`1.Remove(`0)">
+            <summary>
+            Due to DB concurrency, there's no UpdateAsync or Delete Async
+            </summary>
+            <param name="author"></param>
+            <returns>number of lines changed</returns>
+        </member>
+    </members>
+</doc>

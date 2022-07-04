@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Parks.API</name>
+    </assembly>
+    <members>
+        <member name="M:Parks.API.Repositories.Abstractions.IRepository`1.Update(`0)">
+            <summary>
+            Due to DB concurrency, there's no UpdateAsync or Delete Async
+            </summary>
+            <param name="author"></param>
+            <returns>number of lines changed</returns>
+        </member>
+        <member name="M:Parks.API.Repositories.Abstractions.IRepository`1.Remove(`0)">
+            <summary>
+            Due to DB concurrency, there's no UpdateAsync or Delete Async
+            </summary>
+            <param name="author"></param>
+            <returns>number of lines changed</returns>
+        </member>
+    </members>
+</doc>

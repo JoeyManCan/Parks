@@ -10,6 +10,5 @@ namespace Parks.API.Data
 
         }
 
-        public DbSet<NationalPark> NationalParks { get; set; } = null!;
     }
 }

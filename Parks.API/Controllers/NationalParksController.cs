@@ -13,16 +13,26 @@ namespace Parks.API.Controllers
     public class NationalParksController : ControllerSuper
     {
         private readonly IUnitOfWork<ParksDbContext> _unitOfWork;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="logger"></param>
+        /// <param name="mapper"></param>
         public NationalParksController(IUnitOfWork<ParksDbContext> unitOfWork,
             Serilog.ILogger logger, IMapper mapper)
             : base(logger, mapper)
         {
             _unitOfWork = unitOfWork;
         }
+        /// <summary>
+        /// Gets selected park
+        /// </summary>
+        /// <param name="id">Park ID</param>
+        /// <returns>Park object</returns>
         [HttpGet]
         [Route("GetById")]
-        public async Task<ActionResult<NationalPark>> GetParkById(int id)
+        public async Task<IActionResult> GetParkById(int id)
         {
             try
             {
@@ -43,7 +53,7 @@ namespace Parks.API.Controllers
 
         [HttpGet]
         [Route("GetAllParks")]
-        public async Task<ActionResult<IEnumerable<NationalPark>>> GetAllParksAsync()
+        public async Task<IActionResult> GetAllParksAsync()
         {
             try
             {
@@ -110,7 +120,7 @@ namespace Parks.API.Controllers
                     return Problem($"The park {dbPark.Name} could not be deleted");
                 }
 
-                return Ok();
+                return NoContent();
 
             }
             catch (Exception ex)
