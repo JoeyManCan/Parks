@@ -53,11 +53,11 @@ namespace Parks.API.Controllers
 
         [HttpGet]
         [Route("GetAllTrails")]
-        public IActionResult GetTrails()
+        public async Task<IActionResult> GetTrails()
         {
             try
             {
-                var trails = _unitOfWork.TrailRepository.GetTrails();
+                var trails = await _unitOfWork.TrailRepository.GetAllAsync();
                 var trailsDTO = Mapper.Map<IEnumerable<TrailDTO>>(trails);
 
                 return Ok(trailsDTO);
@@ -70,13 +70,13 @@ namespace Parks.API.Controllers
 
         [HttpPost]
         [Route("CreateTrail")]
-        public async Task<IActionResult> CreateAsync(TrailDTO trailDTO)
+        public async Task<IActionResult> CreateAsync(TrailUpsertDTO trailDTO)
         {
             try
             {
                 if (trailDTO == null)
                 {
-                    return NotFound("No National Trail requested");
+                    return BadRequest("No National Trail requested");
                 }
                 if (ModelState.IsValid)
                 {
@@ -130,13 +130,13 @@ namespace Parks.API.Controllers
 
         [HttpPatch]
         [Route("UpdateTrail")]
-        public async Task<IActionResult> UpdateAsync(int id, TrailDTO trailDTO)
+        public async Task<IActionResult> UpdateAsync(int id, TrailUpsertDTO trailDTO)
         {
             try
             {
                 if (trailDTO == null || id != trailDTO.Id)
                 {
-                    return NotFound("No Trail requested");
+                    return BadRequest("No Trail requested");
                 }
                 if (ModelState.IsValid)
                 {
@@ -145,7 +145,8 @@ namespace Parks.API.Controllers
                     {
                         return Problem($"The Trail {trailDTO.Name} was not found");
                     }
-                    var result = _unitOfWork.TrailRepository.Update(dbTrail);
+                    var trail = Mapper.Map<Trail>(trailDTO);
+                    var result = _unitOfWork.TrailRepository.Update(trail);
 
                     if(result == 0)
                     {

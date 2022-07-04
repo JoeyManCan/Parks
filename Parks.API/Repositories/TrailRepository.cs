@@ -16,10 +16,11 @@ namespace Parks.API.Repositories
             return trail != null;
         }
 
-        public IEnumerable<Trail> GetTrails()
+        /*public IEnumerable<Trail> GetTrails()
         {
+            if()
             return DbSet.Include(trail => trail.NationalPark).OrderBy(trail =>trail.Name).ToList();
-        }
+        }*/
 
         public Trail GetTrailById(int id)
         {
