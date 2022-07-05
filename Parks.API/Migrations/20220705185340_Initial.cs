@@ -5,10 +5,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Parks.API.Migrations
 {
-    public partial class AddTrails : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "NationalParks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PictureUri = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Established = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NationalParks", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Trails",
                 columns: table => new
@@ -42,6 +59,9 @@ namespace Parks.API.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Trails");
+
+            migrationBuilder.DropTable(
+                name: "NationalParks");
         }
     }
 }

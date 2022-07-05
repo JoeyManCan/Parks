@@ -10,7 +10,7 @@ namespace Parks.API.Data
 
         }
 
-        //although not referenced, these DBSets are used at runtime
+        //used for migrations
         public virtual DbSet<NationalPark> NationalParks { get; set; } = null!;
         public virtual DbSet<Trail> Trails { get; set; } = null!;
 

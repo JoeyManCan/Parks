@@ -12,8 +12,8 @@ using Parks.API.Data;
 namespace Parks.API.Migrations
 {
     [DbContext(typeof(ParksDbContext))]
-    [Migration("20220704233052_AddTrails")]
-    partial class AddTrails
+    [Migration("20220705185340_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

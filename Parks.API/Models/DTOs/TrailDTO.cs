@@ -15,6 +15,8 @@ namespace Parks.API.Models.DTOs
 
         //Reference
         [Required]
-        public NationalPark NationalPark { get; set; } = null!;
+        public int NationalParkId { get; set; }
+
+        public NationalParkDTO NationalPark { get; set; } = null!;
     }
 }
