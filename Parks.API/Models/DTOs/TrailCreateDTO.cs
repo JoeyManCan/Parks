@@ -3,9 +3,8 @@ using static Parks.API.Models.Trail;
 
 namespace Parks.API.Models.DTOs
 {
-    public class TrailUpsertDTO
+    public class TrailCreateDTO
     {
-        public int Id { get; set; }
         [Required]
         public string Name { get; set; } = string.Empty;
 
@@ -15,6 +14,6 @@ namespace Parks.API.Models.DTOs
 
         //Reference
         [Required]
-        public int NationalParkId { get; set; } 
+        public int NationalParkId { get; set; }
     }
 }

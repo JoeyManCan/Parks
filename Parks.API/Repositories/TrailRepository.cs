@@ -12,20 +12,19 @@ namespace Parks.API.Repositories
         }
         public async Task<bool> IsTrailThere(string name)
         {
-            var trail = await DbSet.FirstAsync(trail => trail.Name == name);
+            var trail = await DbSet.FirstOrDefaultAsync(trail => trail.Name == name);
             return trail != null;
         }
 
-        /*public IEnumerable<Trail> GetTrails()
+        public IEnumerable<Trail> GetTrails()
         {
-            if()
-            return DbSet.Include(trail => trail.NationalPark).OrderBy(trail =>trail.Name).ToList();
-        }*/
+            return DbSet.Include(trail => trail.NationalPark).OrderBy(trl =>trl.Name).ToList();
+        }
 
-        public Trail GetTrailById(int id)
+        public Trail? GetTrailById(int id)
         {
-            return DbSet.Include(trail => trail.NationalPark)
-                .First(trail => id == trail.Id);
+            return DbSet.Include(trl => trl.NationalPark)
+                .FirstOrDefault(trail => id == trail.Id);
         }
 
         public IList<Trail> GetTrailsInPark(int parkId)

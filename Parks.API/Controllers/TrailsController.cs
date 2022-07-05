@@ -41,7 +41,8 @@ namespace Parks.API.Controllers
                 {
                     return NotFound("The requested trail was not found");
                 }
-                return Ok(trail);
+                var trailDTO = Mapper.Map<TrailDTO>(trail);
+                return Ok(trailDTO);
             }
             catch (Exception ex)
             {
@@ -53,11 +54,11 @@ namespace Parks.API.Controllers
 
         [HttpGet]
         [Route("GetAllTrails")]
-        public async Task<IActionResult> GetTrails()
+        public IActionResult GetTrails()
         {
             try
             {
-                var trails = await _unitOfWork.TrailRepository.GetAllAsync();
+                var trails = _unitOfWork.TrailRepository.GetTrails();
                 var trailsDTO = Mapper.Map<IEnumerable<TrailDTO>>(trails);
 
                 return Ok(trailsDTO);
@@ -70,7 +71,7 @@ namespace Parks.API.Controllers
 
         [HttpPost]
         [Route("CreateTrail")]
-        public async Task<IActionResult> CreateAsync(TrailUpsertDTO trailDTO)
+        public async Task<IActionResult> CreateAsync(TrailCreateDTO trailDTO)
         {
             try
             {
@@ -130,7 +131,7 @@ namespace Parks.API.Controllers
 
         [HttpPatch]
         [Route("UpdateTrail")]
-        public async Task<IActionResult> UpdateAsync(int id, TrailUpsertDTO trailDTO)
+        public async Task<IActionResult> UpdateAsync(int id, TrailUpdateDTO trailDTO)
         {
             try
             {
