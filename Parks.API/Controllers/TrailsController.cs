@@ -141,17 +141,13 @@ namespace Parks.API.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    var dbTrail = await _unitOfWork.TrailRepository.GetByIdAsync(trailDTO.Id);
-                    if(dbTrail == null)
-                    {
-                        return Problem($"The Trail {trailDTO.Name} was not found");
-                    }
+                    
                     var trail = Mapper.Map<Trail>(trailDTO);
                     var result = _unitOfWork.TrailRepository.Update(trail);
 
                     if(result == 0)
                     {
-                        return Problem($"The Trail {dbTrail.Name} could not be updated");
+                        return Problem($"The Trail {trail.Name} could not be updated");
                     }
 
                     return NoContent();

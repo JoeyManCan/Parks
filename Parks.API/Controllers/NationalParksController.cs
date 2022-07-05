@@ -141,16 +141,12 @@ namespace Parks.API.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    var dbNationalPark = await _unitOfWork.NationalParkRepository.GetByIdAsync(nationalParkDTO.Id);
-                    if(dbNationalPark == null)
-                    {
-                        return Problem($"The Park {nationalParkDTO.Name} was not found");
-                    }
-                    var result = _unitOfWork.NationalParkRepository.Update(dbNationalPark);
+                    var park = Mapper.Map<NationalPark>(nationalParkDTO);
+                    var result = _unitOfWork.NationalParkRepository.Update(park);
 
                     if(result == 0)
                     {
-                        return Problem($"The park {dbNationalPark.Name} could not be updated");
+                        return Problem($"The park {park.Name} could not be updated");
                     }
 
                     return NoContent();
