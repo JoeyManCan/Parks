@@ -129,9 +129,10 @@ namespace Parks.API.Controllers
             }
         }
 
+        //[HttpPatch("{id:int}", Name = "UpdateTrail")] this makes the id parameter required in swagger
         [HttpPatch]
         [Route("UpdateTrail")]
-        public async Task<IActionResult> UpdateAsync(int id, TrailUpdateDTO trailDTO)
+        public IActionResult UpdateAsync(int id, TrailUpdateDTO trailDTO)
         {
             try
             {

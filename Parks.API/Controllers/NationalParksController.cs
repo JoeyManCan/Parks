@@ -131,7 +131,7 @@ namespace Parks.API.Controllers
 
         [HttpPatch]
         [Route("UpdatePark")]
-        public async Task<IActionResult> UpdateAsync(int id, NationalParkUpdateDTO nationalParkDTO)
+        public IActionResult UpdateAsync(int id, NationalParkUpdateDTO nationalParkDTO)
         {
             try
             {
