@@ -19,6 +19,21 @@
             <param name="id">Park ID</param>
             <returns>Park object</returns>
         </member>
+        <member name="M:Parks.API.Controllers.TrailsController.#ctor(Parks.API.Repositories.Abstractions.IUnitOfWork{Parks.API.Data.ParksDbContext},Serilog.ILogger,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="unitOfWork"></param>
+            <param name="logger"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:Parks.API.Controllers.TrailsController.GetTrailById(System.Int32)">
+            <summary>
+            Gets selected Trail
+            </summary>
+            <param name="id">Trail ID</param>
+            <returns>Trail object</returns>
+        </member>
         <member name="M:Parks.API.Repositories.Abstractions.IRepository`1.Update(`0)">
             <summary>
             Due to DB concurrency, there's no UpdateAsync or Delete Async
